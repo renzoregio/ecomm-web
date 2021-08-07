@@ -245,6 +245,152 @@
 // }
 
 // INTERFACE NARROWING
+// interface Person {
+//   kind: "business" | "academic";
+//   name: string;
+//   age: number;
+// }
+
+// interface BusinessPerson extends Person {
+//   kind: "business";
+//   company?: string;
+//   salary: number;
+// }
+
+// interface AcademicPerson extends Person {
+//   kind: "academic";
+//   publications: string[];
+// }
+
+// type Human = BusinessPerson | AcademicPerson;
+
+// const human1: BusinessPerson = {
+//   name: "Renzo",
+//   age: 23,
+//   kind: "business",
+//   salary: 100000,
+//   company: "Google",
+// };
+
+// const human2: AcademicPerson = {
+//   name: "Academic Person",
+//   age: 1,
+//   kind: "academic",
+//   publications: ["Cool book"],
+// };
+
+// function logPersonInfo(human: Human) {
+//   if (human.kind == "business") {
+//     console.log(`I am a businessman: ${human.salary}`);
+//   } else {
+//     console.log(`I am an academic professor: ${human.publications}`);
+//   }
+// }
+// logPersonInfo(human1);
+// logPersonInfo(human2);
+
+// type RaceCar = {
+//   brand: string;
+//   team: boolean;
+//   maxSpeed: 200;
+// };
+
+// type CityCar = {
+//   brand: string;
+//   seats: number;
+//   maxSpeed: 100;
+// };
+
+// export default function play() {
+//   const car1: RaceCar = {
+//     brand: "Ferrari",
+//     team: true,
+//     maxSpeed: 200,
+//   };
+
+//   const car2: CityCar = {
+//     brand: "Toyota",
+//     seats: 4,
+//     maxSpeed: 100,
+//   };
+
+//   function logCarInfo(car: RaceCar | CityCar) {
+//     switch (car.maxSpeed) {
+//       case 100:
+//         console.log(`The car specified is a city car: ${car.brand}`);
+//         break;
+//       case 200:
+//         console.log(`The car specified is a RACE car: ${car.brand}`);
+//         break;
+//     }
+//   }
+
+//   logCarInfo(car1);
+//   logCarInfo(car2);
+
+//   // function printInfo(someObject: { [key: string]: any }) {
+
+//   // }
+
+//   function printInfo(someObject: { [key: string]: unknown }) {
+//     if (typeof someObject.name === "string") {
+//       console.log(someObject.name.toUpperCase());
+//     }
+//     // console.log(someObject.name.toUpperCase());
+//   }
+
+//   printInfo({ name: "12" });
+// }
+
+// VOID
+
+// interface Person {
+//   kind: "business" | "academic";
+//   name: string;
+//   age: number;
+// }
+
+// interface BusinessPerson extends Person {
+//   kind: "business";
+//   company?: string;
+//   salary: number;
+// }
+
+// interface AcademicPerson extends Person {
+//   kind: "academic";
+//   publications: string[];
+// }
+
+// type noOp = () => any;
+// type noOp2 = () => void;
+
+// export default function play() {
+//   function fn1(func: noOp): void {
+
+//     const res = func();
+//     since func returns any, we can do anything with the res variable and there will not be an error
+//     res()
+//   }
+
+//   function fn2(func: noOp2): void {
+//     const res = func();
+//     If we console.log(res) it will be noting, there will be an error since func() returns void, nothing will be assigned
+//     console.log(res);
+//   }
+// }
+
+// CUSTOM GENERIC TYPE
+// <T> specifies the type you pass on when creating the class
+// in this case <T> is string
+class Logger<T> {
+  // we can assign it to every parameter as T which is string
+  log(items: Array<T>, callback: (item: T) => void) {
+    items.forEach((item) => {
+      callback(item);
+    });
+  }
+}
+
 interface Person {
   kind: "business" | "academic";
   name: string;
@@ -261,70 +407,44 @@ interface AcademicPerson extends Person {
   kind: "academic";
   publications: string[];
 }
-
-type Human = BusinessPerson | AcademicPerson;
-
-const human1: BusinessPerson = {
-  name: "Renzo",
-  age: 23,
-  kind: "business",
-  salary: 100000,
-  company: "Google",
-};
-
-const human2: AcademicPerson = {
-  name: "Academic Person",
-  age: 1,
-  kind: "academic",
-  publications: ["Cool book"],
-};
-
-function logPersonInfo(human: Human) {
-  if (human.kind == "business") {
-    console.log(`I am a businessman: ${human.salary}`);
-  } else {
-    console.log(`I am an academic professor: ${human.publications}`);
-  }
-}
-logPersonInfo(human1);
-logPersonInfo(human2);
-
-type RaceCar = {
-  brand: string;
-  team: boolean;
-  maxSpeed: 200;
-};
-
-type CityCar = {
-  brand: string;
-  seats: number;
-  maxSpeed: 100;
-};
-
 export default function play() {
-  const car1: RaceCar = {
-    brand: "Ferrari",
-    team: true,
-    maxSpeed: 200,
+  // <string> represents T on the class
+  const logger = new Logger<string>();
+  //   type displayFunc = (item: string) => void;
+  //   const display: displayFunc = (item: string): void => {
+  //     console.log(item);
+  //   };
+  const names = ["Renzo", "Gabriel", "Ronald"];
+  //   logger.log(["Renzo", "Gabriel", "Ronald"], display);
+  logger.log(names, (name) => {
+    console.log(name.toUpperCase());
+  });
+
+  // we can also change it to number
+
+  const logger2 = new Logger<number>();
+  const numbers = [1, 2, 3, 4];
+
+  logger2.log(numbers, (number) => {
+    console.log((number += 10));
+  });
+
+  // for objects
+  const person1: BusinessPerson = {
+    kind: "business",
+    salary: 1000,
+    name: "Renzo",
+    age: 23,
+  };
+  const person2: AcademicPerson = {
+    kind: "academic",
+    publications: ["random book"],
+    name: "someone",
+    age: 1,
   };
 
-  const car2: CityCar = {
-    brand: "Toyota",
-    seats: 4,
-    maxSpeed: 100,
-  };
-
-  function logCarInfo(car: RaceCar | CityCar) {
-    switch (car.maxSpeed) {
-      case 100:
-        console.log(`The car specified is a city car: ${car.brand}`);
-        break;
-      case 200:
-        console.log(`The car specified is a RACE car: ${car.brand}`);
-        break;
-    }
-  }
-
-  logCarInfo(car1);
-  logCarInfo(car2);
+  const logger3 = new Logger<Person>();
+  logger3.log([person1, person2], (person) => {
+    console.log(person.name);
+  });
 }
