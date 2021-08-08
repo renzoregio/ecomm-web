@@ -526,52 +526,106 @@
 // }
 
 // GENERIC TYPES WITH EXTENDS
-interface Person {
-  name: string;
-  age: number;
-}
+// interface Person {
+//   name: string;
+//   age: number;
+// }
 
-interface Student extends Person {
-  studentNumber: number;
-}
+// interface Student extends Person {
+//   studentNumber: number;
+// }
 
-interface PostGradStudent extends Person {
-  studentNumber: number;
-  yearGraduated: number;
-}
+// interface PostGradStudent extends Person {
+//   studentNumber: number;
+//   yearGraduated: number;
+// }
 
-// type StudentInfo<T extends Student = Student> = {
-//   data?: T;
-//   grades: number[];
+// // type StudentInfo<T extends Student = Student> = {
+// //   data?: T;
+// //   grades: number[];
+// // };
+
+// type StudentInfo<T extends any = Student> = T extends Student
+//   ? {
+//       data?: T;
+//       grades: number[];
+//     }
+//   : string;
+
+// type Car = {
+//   engine: true;
 // };
 
-type StudentInfo<T extends any = Student> = T extends Student
-  ? {
-      data?: T;
-      grades: number[];
-    }
-  : string;
+// export default function play() {
+//   const studentOne = {
+//     // data: {
+//     //   name: "Renzo",
+//     //   age: 23,
+//     //   studentNumber: 1,
+//     //   yearGraduated: 2020,
+//     // },
+//     grades: [100, 99, 99],
+//   };
+//   function logStudentInfo(info: StudentInfo<PostGradStudent>) {
+//     console.log(info.data);
+//     console.log(info.grades);
+//     // will only be accessible since we set default to <PostGradStudent>
+//     // if we remove <PostGradStudent> there will be an error
+//     console.log(info.data.yearGraduated);
+//   }
+//   logStudentInfo(studentOne);
+// }
 
-type Car = {
-  engine: true;
-};
+// type CustomArray<T = string> = {
+//   [index: number]: T;
+// };
+
+// type CustomObject<T = string> = {
+//   [key: string]: T;
+// };
+// export default function play() {
+//   // arrays
+//   const nums: CustomArray<number> = [1, 2, 3];
+//   const strings: CustomArray = ["1", "2", "3"];
+//   const bools: CustomArray<boolean> = [true, false];
+//   const all: CustomArray<any> = [1, 2, "HI", true];
+
+//   // objects
+
+//   const person: CustomObject = {
+//     name: "Renzo",
+//     age: "23",
+//   };
+
+//   const person2: CustomObject<number> = {
+//     age: 23,
+//   };
+
+//   const person3: CustomObject<any> = {
+//     name: "Renzo",
+//     age: 23,
+//   };
+// }
 
 export default function play() {
-  const studentOne = {
-    // data: {
-    //   name: "Renzo",
-    //   age: 23,
-    //   studentNumber: 1,
-    //   yearGraduated: 2020,
-    // },
-    grades: [100, 99, 99],
-  };
-  function logStudentInfo(info: StudentInfo<PostGradStudent>) {
-    console.log(info.data);
-    console.log(info.grades);
-    // will only be accessible since we set default to <PostGradStudent>
-    // if we remove <PostGradStudent> there will be an error
-    console.log(info.data.yearGraduated);
+  function logger(...args: any[]) {
+    return "Hello World";
   }
-  logStudentInfo(studentOne);
+
+  const person = {
+    name: "Renzo",
+    age: 23,
+  };
+
+  const person2: typeof person = {
+    name: "",
+    age: 0,
+  };
+
+  const kindaLogger: typeof logger = (
+    a: string,
+    b: number,
+    c: boolean,
+    d: object
+  ) => "Hi Guys!";
 }
