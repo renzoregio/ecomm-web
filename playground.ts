@@ -607,25 +607,98 @@
 //   };
 // }
 
-export default function play() {
-  function logger(...args: any[]) {
-    return "Hello World";
-  }
+// export default function play() {
+//   function logger(...args: any[]) {
+//     return "Hello World";
+//   }
 
-  const person = {
-    name: "Renzo",
-    age: 23,
-  };
+//   const person = {
+//     name: "Renzo",
+//     age: 23,
+//   };
 
-  const person2: typeof person = {
-    name: "",
-    age: 0,
-  };
+//   const person2: typeof person = {
+//     name: "",
+//     age: 0,
+//   };
 
-  const kindaLogger: typeof logger = (
-    a: string,
-    b: number,
-    c: boolean,
-    d: object
-  ) => "Hi Guys!";
-}
+//   const kindaLogger: typeof logger = (
+//     a: string,
+//     b: number,
+//     c: boolean,
+//     d: object
+//   ) => "Hi Guys!";
+// }
+
+// INFER KEYWORD
+
+// type returnType<T> = T extends () => infer R ? R : number;
+
+// export default function play() {
+//   function logger(a) {
+//     return true;
+//   }
+
+//   const loggerReturn: returnType<typeof logger> = 1;
+// }
+
+//KEYOF KEYWORD
+
+// interface Person {
+//   name: string;
+//   age: number;
+// }
+
+// type personKey = keyof Person;
+
+// export default function play() {
+//   const key: personKey = "age";
+// }
+
+// MULTIPLE GENERIC PARAMS
+
+// type LoggerFn<FP = string, SP = number, R = string> = (
+//   param1: FP,
+//   param2: SP
+// ) => R;
+
+// export default function play() {
+//   const superLogger: LoggerFn<string, number, string> = (name, age) => {
+//     return "Hello World!";
+//   };
+
+//   const logger2: LoggerFn = (name, age) => {
+//     return "";
+//   };
+// }
+
+// INFERRING RETURN TYPE OF PROMISE
+
+// export default async function play() {
+//   type greetingType = { message: string };
+//   type InferHelloProps<T> = T extends () => Promise<{ props: infer Props }>
+//     ? Props
+//     : never;
+
+//   const getHelloProps = async () => {
+//     const greeting: greetingType = {
+//       message: "Hi Friends!",
+//     };
+//     return {
+//       props: {
+//         greeting,
+//         data: {
+//           cars: ["car1", "car2"],
+//         },
+//       },
+//     };
+//   };
+
+//   const data = await getHelloProps();
+
+//   function sayHello(props: InferHelloProps<typeof getHelloProps>) {
+//     console.log(props.data);
+//   }
+
+//   sayHello(data.props);
+// }
