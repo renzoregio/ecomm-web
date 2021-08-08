@@ -382,69 +382,196 @@
 // CUSTOM GENERIC TYPE
 // <T> specifies the type you pass on when creating the class
 // in this case <T> is string
-class Logger<T> {
-  // we can assign it to every parameter as T which is string
-  log(items: Array<T>, callback: (item: T) => void) {
-    items.forEach((item) => {
-      callback(item);
-    });
-  }
-}
+// class Logger<T> {
+//   // we can assign it to every parameter as T which is string
+//   log(items: Array<T>, callback: (item: T) => void) {
+//     items.forEach((item) => {
+//       callback(item);
+//     });
+//   }
+// }
 
+// interface Person {
+//   kind: "business" | "academic";
+//   name: string;
+//   age: number;
+// }
+
+// interface BusinessPerson extends Person {
+//   kind: "business";
+//   company?: string;
+//   salary: number;
+// }
+
+// interface AcademicPerson extends Person {
+//   kind: "academic";
+//   publications: string[];
+// }
+// export default function play() {
+//   // <string> represents T on the class
+//   const logger = new Logger<string>();
+//   //   type displayFunc = (item: string) => void;
+//   //   const display: displayFunc = (item: string): void => {
+//   //     console.log(item);
+//   //   };
+//   const names = ["Renzo", "Gabriel", "Ronald"];
+//   //   logger.log(["Renzo", "Gabriel", "Ronald"], display);
+//   logger.log(names, (name) => {
+//     console.log(name.toUpperCase());
+//   });
+
+//   // we can also change it to number
+
+//   const logger2 = new Logger<number>();
+//   const numbers = [1, 2, 3, 4];
+
+//   logger2.log(numbers, (number) => {
+//     console.log((number += 10));
+//   });
+
+//   // for objects
+//   const person1: BusinessPerson = {
+//     kind: "business",
+//     salary: 1000,
+//     name: "Renzo",
+//     age: 23,
+//   };
+//   const person2: AcademicPerson = {
+//     kind: "academic",
+//     publications: ["random book"],
+//     name: "someone",
+//     age: 1,
+//   };
+
+//   const logger3 = new Logger<Person>();
+//   logger3.log([person1, person2], (person) => {
+//     console.log(person.name);
+//   });
+// }
+
+// GENERIC EXTENDS
+// interface Person {
+//   name: string;
+//   age: number;
+// }
+
+// class Student {
+//   name = "";
+//   age = 0;
+// }
+
+// class BusinessMan {
+//   name = "";
+//   age = 0;
+//   salary = 0;
+// }
+
+// class Logger<T extends Person> {
+//   // we can assign it to every parameter as T which is string
+//   log(items: Array<T>, callback: (item: T) => void) {
+//     items.forEach((item) => {
+//       callback(item);
+//     });
+//   }
+// }
+
+// export default function play() {
+//   const logger = new Logger<BusinessMan>();
+//   const persons = [
+//     { name: "Renzo", age: 23, salary: 100 },
+//     { name: "Gabriel", age: 28, salary: 0 },
+//   ];
+//   logger.log(persons, (person) => {
+//     console.log(person);
+//   });
+// }
+
+// DEFAULT VALUES IN GENERICS
+
+// interface Person {
+//   name: string;
+//   age: number;
+// }
+
+// class Student {
+//   name = "";
+//   age = 0;
+// }
+
+// this sets the logger class to have a default type of Person
+// so if we forget to initialze the type when creating a logger function
+// the default will be person
+// default value needs to also satisfy properties of the Person interface
+// class Logger<T extends Person = Student> {
+//   // we can assign it to every parameter as T which is string
+//   log(items: Array<T>, callback: (item: T) => void) {
+//     items.forEach((item) => {
+//       callback(item);
+//     });
+//   }
+// }
+
+// // we can also do it inline
+// class Logger<T extends Person = { name: string; age: number }> {
+//   // we can assign it to every parameter as T which is string
+//   log(items: Array<T>, callback: (item: T) => void) {
+//     items.forEach((item) => {
+//       callback(item);
+//     });
+//   }
+// }
+
+// export default function play() {
+//   const logger = new Logger();
+// }
+
+// GENERIC TYPES WITH EXTENDS
 interface Person {
-  kind: "business" | "academic";
   name: string;
   age: number;
 }
 
-interface BusinessPerson extends Person {
-  kind: "business";
-  company?: string;
-  salary: number;
+interface Student extends Person {
+  studentNumber: number;
 }
 
-interface AcademicPerson extends Person {
-  kind: "academic";
-  publications: string[];
+interface PostGradStudent extends Person {
+  studentNumber: number;
+  yearGraduated: number;
 }
+
+// type StudentInfo<T extends Student = Student> = {
+//   data?: T;
+//   grades: number[];
+// };
+
+type StudentInfo<T extends any = Student> = T extends Student
+  ? {
+      data?: T;
+      grades: number[];
+    }
+  : string;
+
+type Car = {
+  engine: true;
+};
+
 export default function play() {
-  // <string> represents T on the class
-  const logger = new Logger<string>();
-  //   type displayFunc = (item: string) => void;
-  //   const display: displayFunc = (item: string): void => {
-  //     console.log(item);
-  //   };
-  const names = ["Renzo", "Gabriel", "Ronald"];
-  //   logger.log(["Renzo", "Gabriel", "Ronald"], display);
-  logger.log(names, (name) => {
-    console.log(name.toUpperCase());
-  });
-
-  // we can also change it to number
-
-  const logger2 = new Logger<number>();
-  const numbers = [1, 2, 3, 4];
-
-  logger2.log(numbers, (number) => {
-    console.log((number += 10));
-  });
-
-  // for objects
-  const person1: BusinessPerson = {
-    kind: "business",
-    salary: 1000,
-    name: "Renzo",
-    age: 23,
+  const studentOne = {
+    // data: {
+    //   name: "Renzo",
+    //   age: 23,
+    //   studentNumber: 1,
+    //   yearGraduated: 2020,
+    // },
+    grades: [100, 99, 99],
   };
-  const person2: AcademicPerson = {
-    kind: "academic",
-    publications: ["random book"],
-    name: "someone",
-    age: 1,
-  };
-
-  const logger3 = new Logger<Person>();
-  logger3.log([person1, person2], (person) => {
-    console.log(person.name);
-  });
+  function logStudentInfo(info: StudentInfo<PostGradStudent>) {
+    console.log(info.data);
+    console.log(info.grades);
+    // will only be accessible since we set default to <PostGradStudent>
+    // if we remove <PostGradStudent> there will be an error
+    console.log(info.data.yearGraduated);
+  }
+  logStudentInfo(studentOne);
 }
