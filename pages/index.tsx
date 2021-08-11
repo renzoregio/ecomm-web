@@ -18,10 +18,10 @@ export default function Home({
   products,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <>
+    <div className="root">
       Product 1: {products[0].name}
       Product 2: {JSON.stringify(products[1])}
-    </>
+    </div>
   );
 }
 

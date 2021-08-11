@@ -1,0 +1,4 @@
+.root {
+  @apply mx-auto;
+  max-width: 2460px;
+}
