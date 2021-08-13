@@ -1,7 +1,7 @@
 .root {
   @apply grid gap-0 grid-cols-1;
 
-  @screen lg{
+  @screen lg {
     @apply grid-cols-3 grid-rows-2;
   }
 
@@ -10,9 +10,24 @@
     max-height: 800px;
     overflow: hidden;
 
-
-    @screen lg{
-      height: inherit
+    @screen lg {
+      height: inherit;
+      /* max-height: 100%; */
     }
   }
+}
+
+.layoutA {
+  /* 1, 7, 13 */
+  /* 5, 11, 17 */
+  & > *:nth-child(6n + 1),
+  & > *:nth-child(6n + 5) {
+    @screen lg {
+      @apply col-span-2 row-span-2;
+    }
+  }
+}
+
+.layoutB {
+  color: blue;
 }
