@@ -1,9 +1,9 @@
-import {FC, ReactNode} from "react";
+import {FC, ReactNode, ComponentType, HTMLAttributes} from "react";
 import s from "./Container.module.css"
 
 interface Props {
     children: ReactNode | ReactNode[];
-    element?: any;
+    element?: ComponentType<HTMLAttributes<HTMLElement>>
 }
 const Container:FC <Props> = ({children, element: Element="div"}) => {
     return(
