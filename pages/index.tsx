@@ -1,5 +1,5 @@
 import type { InferGetStaticPropsType } from "next";
-import getAllProducts from "@framework/products/get-all-products";
+import {getAllProducts} from "@framework/products";
 import { getConfig } from "@framework/api/config";
 import { Layout } from "@components/common";
 import { ProductCard } from "@components/product";
