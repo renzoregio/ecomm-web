@@ -30,7 +30,11 @@ export const getStaticProps = async({params}: GetStaticPropsContext<{slug: strin
 
 export default function ProductSlug({ product }: InferGetServerSidePropsType<typeof getStaticProps>) {
     return (
-        <> {product.slug} </>
+        <> {product.id} 
+        {product.name}
+        {product.description}
+        {product.price.currencyCode} {product.price.value}
+        </>
     )
 }
 
