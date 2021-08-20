@@ -30,10 +30,51 @@ export const getStaticProps = async({params}: GetStaticPropsContext<{slug: strin
 
 export default function ProductSlug({ product }: InferGetServerSidePropsType<typeof getStaticProps>) {
     return (
-        <> {product.id} 
-        {product.name}
-        {product.description}
-        {product.price.currencyCode} {product.price.value}
+        <>
+        <div>ID: {product.id}</div>
+        <div>Name: {product.name}</div>
+        <div>Price:{product.price.currencyCode} {product.price.value}</div>
+        <div>Vendor: {product.vendor}</div>
+        <div>Description: {product.description}</div>
+
+        <h1 className="mt-10">Options</h1>
+        <div>
+            {product?.options.map(option => (
+                <>
+                <div>
+                    Name: {option.displayName}
+                </div>
+                {option.values.map(value => (
+                    <>
+                        <div>Label: {value.label}</div>
+                        <div>Hex Color: {value?.hexColor}</div>
+                    </>
+                ))}
+                </>
+                
+            ))}
+        </div>
+
+        <h1 className="mt-10">Variants</h1>
+        <div>
+            {product.variants.map(variant => (
+                <div className='mt-10'>
+                    <div>Variant Name: {variant.name}</div>
+                    {variant.options.map(vo => (
+                        <div>
+                            Name: {vo.displayName}
+                            {vo.values.map(value => (
+                                <>
+                                    <div>Label: {value.label}</div>
+                                    <div>Hex Color: {value.hexColor}</div>
+                                </>
+
+                            ))}
+                        </div>
+                    ))}
+                </div>
+            ))}
+        </div>
         </>
     )
 }
