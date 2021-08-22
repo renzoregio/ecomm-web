@@ -16,7 +16,6 @@ const Swatch: FC<Props> = ({
   color,
   label,
   variant,
-  selected,
   active,
   ...rest
 }) => {
@@ -26,7 +25,6 @@ const Swatch: FC<Props> = ({
     [s.size]: variant === "size",
     [s.dark]: color && isDark(color),
   });
-  console.log(color);
 
   label = label.toUpperCase();
 

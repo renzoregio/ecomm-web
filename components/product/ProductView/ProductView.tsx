@@ -5,6 +5,8 @@ import { Container, Button } from "@components/ui";
 import Image from "next/image";
 import { Product } from "@common/types/product";
 import { ProductSlider, Swatch } from "@components/product";
+import { Choices, getVariant } from "../helpers";
+import { useUI } from "@components/ui/context";
 
 interface Props {
   product: Product;
@@ -12,12 +14,23 @@ interface Props {
 
 type AvailableChoices = "size" | "color" | string;
 
-interface Choices {
-  [T in AvailableChoices]: string;
-}
-
 const ProductView: FC<Props> = ({ product }) => {
   const [choices, setChoices] = useState<Choices>({});
+  const { openSidebar } = useUI();
+  const variant = getVariant(product, choices);
+
+  const addToCart = () => {
+    try {
+      const item = {
+        productId: String(product.id),
+        variantId: variant?.id,
+        variantOptions: variant?.options,
+      };
+      openSidebar();
+      alert(JSON.stringify(item));
+    } catch {}
+  };
+
   return (
     <Container>
       <div className={cn(s.root, "fit", "mb-5")}>
@@ -70,7 +83,6 @@ const ProductView: FC<Props> = ({ product }) => {
                         variant={option.displayName.toLowerCase()}
                         label={optValue.label}
                         color={optValue.hexColor}
-                        selected={choices}
                       />
                     );
                   })}
@@ -83,10 +95,7 @@ const ProductView: FC<Props> = ({ product }) => {
             </div>
           </section>
           <div>
-            <Button
-              className={s.button}
-              onClick={() => alert("Adding to cart")}
-            >
+            <Button className={s.button} onClick={addToCart}>
               Add to Cart
             </Button>
           </div>
