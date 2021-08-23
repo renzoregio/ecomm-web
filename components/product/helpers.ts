@@ -1,6 +1,8 @@
 import { Product } from "@common/types/product";
 
-export interface Choices {
+type AvailableChoices = "size" | "color" | string;
+
+export type Choices = {
   [T in AvailableChoices]: string;
 }
 
