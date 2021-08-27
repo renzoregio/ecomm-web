@@ -22,7 +22,7 @@ const useData = (hook: any, fetcher: ApiFetcher) => {
     const [data, setData] = useState(null)
     const hookFetcher = async () => {
         try {
-            return await hook.fetcherWrapper({
+            return await hook.fetcher({
                 fetch: fetcher,
                 options: hook.fetchOptions,
                 input: {}

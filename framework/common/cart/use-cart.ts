@@ -8,12 +8,12 @@ import Cookies from "js-cookie"
 const useCart = () => {
     const hook = useHook((hooks: ApiHooks) => hooks.cart.useCart)
     const { checkoutCookie } = useApiProvider()
-    const fetcherWrapper: typeof hook.fetcher = (context) => {
+    const fetcher: typeof hook.fetcher = (context) => {
         context.input.checkoutId = Cookies.get(checkoutCookie)
         return hook.fetcher(context)
     }
 
-    return useSWRHook({...hook,  fetcherWrapper})
+    return useSWRHook({...hook, fetcher})
 }
 
 
