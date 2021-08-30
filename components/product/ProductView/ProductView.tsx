@@ -28,8 +28,10 @@ const ProductView: FC<Props> = ({ product }) => {
         productId: String(product.id),
         variantId: variant?.id,
         variantOptions: variant?.options,
+        quantity: 1
+
       };
-      await addItem(item);
+      const cart  = await addItem(item);
       openSidebar();
     } catch {}
   };

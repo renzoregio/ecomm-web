@@ -10,6 +10,7 @@ const CartSidebar: FC = () => {
   const {closeSidebar} = useUI()
   const isEmpty = true
   const {data} = useCart()
+  
   console.log(data)
   
 
