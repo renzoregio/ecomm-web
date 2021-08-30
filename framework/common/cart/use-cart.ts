@@ -1,19 +1,19 @@
-import { ApiHooks } from "@common/types/hooks"
+import { ApiHooks, SWRHook } from "@common/types/hooks"
 import { useHook, useSWRHook } from "@common/utils/use-hook"
 import { useApiProvider } from "@common"
 import Cookies from "js-cookie"
 
+export type UseCart<H extends SWRHook = SWRHook<any>> = ReturnType<H["useHook"]>
 
-
-const useCart = () => {
+const useCart: UseCart = () => {
     const hook = useHook((hooks: ApiHooks) => hooks.cart.useCart)
     const { checkoutCookie } = useApiProvider()
-    const fetcher: typeof hook.fetcher = (context) => {
+    const fetcher: typeof hook.fetcher = (context : any) => {
         context.input.checkoutId = Cookies.get(checkoutCookie)
         return hook.fetcher(context)
     }
 
-    return useSWRHook({...hook, fetcher})
+    return useSWRHook({...hook, fetcher})()
 }
 
 

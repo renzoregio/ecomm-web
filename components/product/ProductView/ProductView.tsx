@@ -32,6 +32,7 @@ const ProductView: FC<Props> = ({ product }) => {
 
       };
       const cart  = await addItem(item);
+      
       openSidebar();
     } catch {}
   };

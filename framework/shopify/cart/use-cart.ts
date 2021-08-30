@@ -1,19 +1,34 @@
-import useCart from "@common/cart/use-cart";
+import useCart, { UseCart } from "@common/cart/use-cart";
 import { createCheckout, getCheckoutQuery } from "@framework/utils";
 import { useMemo } from "react";
 import { checkoutToCart } from "@framework/utils";
+import { Cart } from "@common/types/cart";
+import { SWRHook } from "@common/types/hooks";
+import { Checkout } from "@framework/schema";
 
-export default useCart;
+export default useCart as UseCart<typeof handler>
 
-export const handler = {
 
-    fetchOptions: {
+export type UseCartHookDescriptor = {
+    fetcherInput: {
+        checkoutId: string
+    },
+    fetcherOutput: {
+        node: Checkout
+    }
+    data: Cart,
+}
+
+
+export const handler: SWRHook<UseCartHookDescriptor> = {
+
+    fetcherOptions: {
         query: getCheckoutQuery
     },
 
     async fetcher({fetch, options, input: {checkoutId}}) {
 
-        let checkout;
+        let checkout: Checkout
         
         if(checkoutId){
             const { data } = await fetch({...options, variables: { checkoutId }})
@@ -24,16 +39,18 @@ export const handler = {
         }
 
         const cart = checkoutToCart(checkout)
-        console.log(cart)
+
         return cart
     },
     
-    useHook: ({useData} : any) => {
+    useHook: ({useData}) => () => {
         const data = useData({
              swrOptions: {
                  revalidateOnFocus: false
              }
         })
+
+        
 
         return useMemo(() => {
             return data

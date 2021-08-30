@@ -5,9 +5,13 @@ import Cookies from "js-cookie";
 import { checkoutCreateMutation } from "./mutations";
 
 
-const createCheckout = async (fetch: ApiFetcher<{checkoutCreate: CheckoutCreatePayload}>): Promise<Maybe<Checkout | undefined>> => {
+const createCheckout = async (fetch: ApiFetcher<{checkoutCreate: CheckoutCreatePayload}>): Promise<Checkout> => {
+    
     const { data } = await fetch({query: checkoutCreateMutation})
     const {checkout} = data.checkoutCreate
+    if(!checkout){
+        throw new Error("Checkout Error: Checkout Cannot be created")
+    }
     const checkoutId = checkout?.id
     if (checkoutId) {
         const options = {
