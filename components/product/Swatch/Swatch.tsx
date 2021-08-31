@@ -5,6 +5,7 @@ import cn from "classnames";
 import { isDark } from "@lib/color";
 
 interface Props {
+  size? : "sm" | "md" | "lg"
   color?: string;
   label?: string;
   variant?: "size" | "color" | string;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const Swatch: FC<Props> = ({
+  size="md",
   color,
   label,
   variant,
@@ -24,6 +26,7 @@ const Swatch: FC<Props> = ({
     [s.color]: color,
     [s.size]: variant === "size",
     [s.dark]: color && isDark(color),
+    [s.sm] : size === "sm"
   });
 
   label = label.toUpperCase();
@@ -35,7 +38,7 @@ const Swatch: FC<Props> = ({
       className={rootClass}
     >
       {active && variant === "color" && <Check />}
-      {variant === "size" && label}
+      {variant.toLowerCase() === "size" && label}
     </button>
   );
 };
