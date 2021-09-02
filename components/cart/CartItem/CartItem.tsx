@@ -19,27 +19,27 @@ const CartItem = ({
   const [quantity, setQuantity] = useState(item.quantity)
   const removeItem = useRemoveItem()
   const updateItem = useUpdateItem()
-  const price = (item.variant.price! * item.quantity) || 0
   const {options} = item
+  const price = (item.variant.price! * item.quantity) || 0
 
-  const handleQuantityChange = async (val: number) => {
+  const handleQuantityChange = (val: number) => {
     if(Number.isInteger(val) && val >= 0){
       setQuantity(val)
-      await updateItem({
+      updateItem({
         id: item.id,
         variantId: item.variantId,
-        quantity: quantity
+        quantity: val
       })
     }
   }
 
-  const handleQuantity = async (e : ChangeEvent<HTMLInputElement>) => {
-    const val = +e.target.value
+  const handleQuantity = (e : ChangeEvent<HTMLInputElement>) => {
+    const val = Number(e.target.value)
     handleQuantityChange(val)
   }
 
-  const incrementQuantity = async (n = 1) => {
-    const val = +quantity + n
+  const incrementQuantity = (n = 1) => {
+    const val = Number(quantity) + n
     handleQuantityChange(val)
   }
 
@@ -87,7 +87,7 @@ const CartItem = ({
         </div>
         <div className="flex items-center mt-3">
           <button type="button">
-            <Minus onClick={() => {incrementQuantity(-1)}}/>
+            <Minus onClick={() => incrementQuantity(-1)}/>
           </button>
           <label>
             <input
@@ -102,7 +102,7 @@ const CartItem = ({
              />
           </label>
           <button type="button">
-            <Plus onClick={() => {incrementQuantity()}}/>
+            <Plus onClick={() => incrementQuantity(+1)}/>
           </button>
         </div>
       </div>
