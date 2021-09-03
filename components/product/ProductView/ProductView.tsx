@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./ProductView.module.css";
 import { Container, Button } from "@components/ui";
 import Image from "next/image";
@@ -18,9 +18,19 @@ interface Props {
 
 const ProductView: FC<Props> = ({ product }) => {
   const [choices, setChoices] = useState<Choices>({});
+  const [isDisabled, setIsDisabled] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const { openSidebar } = useUI();
   const addItem = useAddItem()
   const variant = getVariant(product, choices);
+  
+  const checkChoices = () => {
+    document.querySelector(".addCartBtn").classList.remove("Button_disabled__1a8b5")
+  }
+  
+  if(choices.size && choices.color){
+    checkChoices()
+  }
 
   const addToCart = async () => {
     try {
@@ -31,10 +41,13 @@ const ProductView: FC<Props> = ({ product }) => {
         quantity: 1
 
       };
-      const cart  = await addItem(item);
-      
+      setIsLoading(true)
+      await addItem(item);
+      setIsLoading(false)
       openSidebar();
-    } catch {}
+    } catch {
+      setIsLoading(false)
+    }
   };
 
   return (
@@ -101,8 +114,8 @@ const ProductView: FC<Props> = ({ product }) => {
             </div>
           </section>
           <div>
-            <Button className={s.button} onClick={addToCart}>
-              Add to Cart
+            <Button cartBtn={true} className={s.button} onClick={addToCart} isLoading={isLoading}>
+              Add to Cart 
             </Button>
           </div>
         </div>
